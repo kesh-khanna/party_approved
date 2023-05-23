@@ -4,6 +4,7 @@ import base64
 import requests
 from requests import post
 import json
+from statistics import mean 
 
 # Tutorial from https://www.youtube.com/watch?v=WAmEZBEeNmg
 
@@ -88,26 +89,23 @@ def get_playlist_tracks(token, playlist_id):
     json_result = json.loads(result.content)
     return json_result
 
-def get_tracklist_ids(tracklist):
+def get_tracklist_array(tracklist):
     track_ids = []
     for track in tracklist['items']:
-        track_ids.append(track['track']['id'])
+        track_ids.append(track['track'])
     
     return track_ids
 
-def get_track_dancability(token, track_id):
+def get_track_dance_energy(token, track_id):
     url = f'https://api.spotify.com/v1/audio-features/{track_id}'
     header = get_auth_header(token)
     result = requests.get(url, headers=header)
     json_result = json.loads(result.content)
-    return json_result['danceability'], json_result['energy'], json_result['popularity']
+    dance = json_result['danceability']
+    energy = json_result['energy']
+    loudness = json_result['loudness']
+    return dance, energy, loudness
 
-def get_track_energy(token, track_id):
-    url = f'https://api.spotify.com/v1/audio-features/{track_id}'
-    header = get_auth_header(token)
-    result = requests.get(url, headers=header)
-    json_result = json.loads(result.content)
-    return json_result['energy']
 
 
 token = get_token()
@@ -117,5 +115,18 @@ playlist = search_playlists(token, "Cordae: The Complete Collection")
 playlist_id = playlist['playlists']['items'][0]['id']
 #print("Playlist Id: ", playlist_id)
 tracklist = get_playlist_tracks(token, playlist_id)
-track_ids = get_tracklist_ids(tracklist)
-print(track_ids[0])
+track_in_array = get_tracklist_array(tracklist)
+
+
+playlist_rating = []
+for track in track_in_array:
+    pop = track['popularity']/100
+    dance, energy, loudness = get_track_dance_energy(token, track['id'])
+    # print(pop, dance, energy, loudness)
+    rating = (pop + dance + energy) / 4
+    playlist_rating.append(rating)
+
+print(mean(playlist_rating))
+
+#print(track_in_array[0]['id'])
+
