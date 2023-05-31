@@ -18,6 +18,12 @@ def leaderboard(username):
     playlists = [
         {'name': 'Playlist 1', 'rank': 1},
         {'name': 'Playlist 2', 'rank': 2},
+        {'name': 'Playlist 2', 'rank': 2},
+        {'name': 'Playlist 2', 'rank': 2},
+        {'name': 'Playlist 2', 'rank': 2},
+        {'name': 'Playlist 2', 'rank': 2},
+        {'name': 'Playlist 2', 'rank': 2},
+        {'name': 'Playlist 2', 'rank': 2},
         {'name': 'Playlist 3', 'rank': 3}
     ]
     return render_template('leaderboard.html', username=username, playlists=playlists)
