@@ -63,11 +63,14 @@ def sort_playlists_by_pop(playlists):
 
 def calculate_playlist_pop(playlist_id):
     tracks = sp.playlist_items(playlist_id)['items']
+    if len(tracks) == 0:
+        return 0
+
     pop_sum = 0
     num_tracks = 0
 
     for track in tracks:
-        if 'track' in track:
+        if track is not None and track['track'] is not None:
             pop = track['track']['popularity']
             pop_sum += pop
             num_tracks += 1
