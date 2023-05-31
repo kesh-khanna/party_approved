@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Playlist Leaderboard</title>
+</head>
+<body>
+    <h1>Leaderboard for {{ username }}:</h1>
+    <table>
+        <tr>
+            <th>Playlist Name</th>
+            <th>Rank</th>
+        </tr>
+        {% for playlist in playlists %}
+        <tr>
+            <td>{{ playlist.name }}</td>
+            <td>{{ playlist.rank }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
