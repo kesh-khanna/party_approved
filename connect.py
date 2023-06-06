@@ -72,7 +72,7 @@ def connect():
             conn.close()
             print('Database connection closed.')
 
-def insert_playlist(playlist):
+def insert_playlist(playlist, score):
     sql = """ INSERT INTO Playlists (PlaylistID, Username, PlaylistName, Image, Score)
               VALUES(%s, %s, %s, %s, %s);"""
     conn = None
@@ -80,12 +80,15 @@ def insert_playlist(playlist):
         params = config()
         conn = psycopg2.connect(**params)
         cur = conn.cursor()
-        #playlistID =
-        #Username =
-        #playlistName =
-        #Image =
-        #Score =
-        cur.execute(sql, playlist)
+
+
+        playlistID = playlist['id']
+        Username = playlist['owner']['display_name']
+        playlistName = playlist['name']
+        Image = 0
+
+        cur.execute(sql, (playlistID, Username, playlistName, Image, score,))
+        cur.execute(sql, ('22zlrw75elsb2d2i3ftjdybly', 'asdasd', 'asdasd', 0, 2))
 
         conn.commit()
         cur.close()
@@ -95,9 +98,8 @@ def insert_playlist(playlist):
     finally:
         if conn is not None:
             conn.close()
+            print('Database connection closed.')
         
-    
-
 def insert_user(username):
     sql = """INSERT INTO Users (Username)
             VALUES(%s);"""
