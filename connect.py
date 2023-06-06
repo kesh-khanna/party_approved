@@ -45,13 +45,12 @@ def connect():
         print("Creating tables if not exists")
         tables = ["""
         CREATE TABLE IF NOT EXISTS Users (
-          UserID CHAR(22) PRIMARY KEY,
-          Username VARCHAR(255) NOT NULL
+          Username VARCHAR(255) PRIMARY KEY
         );
         """, """   
         CREATE TABLE IF NOT EXISTS Playlists (
           PlaylistID CHAR(22) PRIMARY KEY,
-          UserID CHAR(22) REFERENCES Users (UserID),
+          Username VARCHAR(255) REFERENCES Users (Username),
           PlaylistName VARCHAR(255) NOT NULL,
           Image VARCHAR(255),
           Score FLOAT
@@ -73,6 +72,54 @@ def connect():
             conn.close()
             print('Database connection closed.')
 
+def insert_playlist(playlist):
+    sql = """ INSERT INTO Playlists (PlaylistID, Username, PlaylistName, Image, Score)
+              VALUES(%s, %s, %s, %s, %s);"""
+    conn = None
+    try:
+        params = config()
+        conn = psycopg2.connect(**params)
+        cur = conn.cursor()
+        #playlistID =
+        #Username =
+        #playlistName =
+        #Image =
+        #Score =
+        cur.execute(sql, playlist)
+
+        conn.commit()
+        cur.close()
+
+    except (Exception, psycopg2.DatabaseError) as error:
+        print(error)
+    finally:
+        if conn is not None:
+            conn.close()
+        
+    
+
+def insert_user(username):
+    sql = """INSERT INTO Users (Username)
+            VALUES(%s);"""
+    conn = None
+    try:
+        # read database configuration
+        params = config()
+        # connect to the PostgreSQL database
+        conn = psycopg2.connect(**params)
+        # create a new cursor
+        cur = conn.cursor()
+        # execute the INSERT statement
+        cur.execute(sql, (username,))
+        # commit the changes to the database
+        conn.commit()
+        # close communication with the database
+        cur.close()
+    except (Exception, psycopg2.DatabaseError) as error:
+        print(error)
+    finally:
+        if conn is not None:
+            conn.close()
 
 if __name__ == '__main__':
     connect()
