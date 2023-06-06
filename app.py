@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 
 app = Flask(__name__)
 
-load_dotenv()
+load_dotenv("/.env")
 
 client_id = os.getenv("CLIENT_ID")
 client_secret = os.getenv("CLIENT_SECRET")

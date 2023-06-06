@@ -42,8 +42,30 @@ def connect():
         db_version = cur.fetchone()
         print(db_version)
 
+        print("Creating tables if not exists")
+        tables = ["""
+        CREATE TABLE IF NOT EXISTS Users (
+          UserID CHAR(22) PRIMARY KEY,
+          Username VARCHAR(255) NOT NULL
+        );
+        """, """   
+        CREATE TABLE IF NOT EXISTS Playlists (
+          PlaylistID CHAR(22) PRIMARY KEY,
+          UserID CHAR(22) REFERENCES Users (UserID),
+          PlaylistName VARCHAR(255) NOT NULL,
+          Image VARCHAR(255),
+          Score FLOAT
+        );"""]
+
+        for table in tables:
+            cur.execute(table)
+
         # close the communication with the PostgreSQL
         cur.close()
+
+        # commit the changes
+        conn.commit()
+
     except (Exception, psycopg2.DatabaseError) as error:
         print(error)
     finally:
