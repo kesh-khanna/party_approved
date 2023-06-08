@@ -38,7 +38,7 @@ def leaderboard():
     # Insert username into database -- working
     insert_user(username)
 
-    # Insert playlist into database -- working for 0amest not 22sadawwaw77gdas 
+    # Insert playlist into database -- working for 0amest not 22sadawwaw77gdas
 
     insert_playlists(playlists)
 
@@ -107,4 +107,3 @@ def get_playlist_cover_image(playlist_id):
 
 if __name__ == '__main__':
     app.run(debug=True)
-
