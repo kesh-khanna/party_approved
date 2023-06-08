@@ -45,4 +45,3 @@ When promtpted to enter a Spotify username, use any of the following:
 >9amest
 >rorymccarthy40-ie
 As a test version of the program that doesn't require the spotify Authorization, the data for these spotify accounts is provided in testing_data.csv. The user will not be able to get live data from spotify about the accounts and assosciated playlists.
-
