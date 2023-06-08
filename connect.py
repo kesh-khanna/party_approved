@@ -174,8 +174,7 @@ def refresh_playlist(playlist):
         if conn is not None:
             conn.close()
 
-
-def clear_tables():
+def clear_tables()
     conn = None
     try:
         params = config()
