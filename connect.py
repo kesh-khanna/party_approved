@@ -47,15 +47,15 @@ def connect():
         CREATE TABLE IF NOT EXISTS Users (
           Username VARCHAR(255) PRIMARY KEY
         );
-        """, 
-        """   
-        CREATE TABLE IF NOT EXISTS Playlists (
-          PlaylistID CHAR(22) PRIMARY KEY,
-          Username VARCHAR(255),
-          PlaylistName VARCHAR(255) NOT NULL,
-          Image VARCHAR(255),
-          Score FLOAT
-        );"""]
+        """,
+                  """   
+                  CREATE TABLE IF NOT EXISTS Playlists (
+                    PlaylistID CHAR(22) PRIMARY KEY,
+                    Username VARCHAR(255),
+                    PlaylistName VARCHAR(255) NOT NULL,
+                    Image VARCHAR(255),
+                    Score FLOAT
+                  );"""]
 
         for table in tables:
             cur.execute(table)
@@ -73,6 +73,7 @@ def connect():
             conn.close()
             print('Database connection closed.')
 
+
 def insert_playlists(playlists):
     for playlist in playlists:
         insert_playlist(playlist)
@@ -86,14 +87,16 @@ def insert_playlist(playlists):
         conn = psycopg2.connect(**params)
         cur = conn.cursor()
 
+        for playlist in playlists:
 
-        playlist_ID = playlist['id']
-        Username_char = playlist['owner']['display_name']
-        playlist_Name = playlist['name']
-        image = 000000000000
-        score = playlist['pop']
+            playlist_ID = playlist['id']
+            Username_char = playlist['owner']['display_name']
+            playlist_Name = playlist['name']
+            image = 000000000000
+            score = playlist['pop']
 
-        cur.execute(sql, (playlist_ID, Username_char, playlist_Name, image, score))
+            cur.execute(sql, (playlist_ID, Username_char, playlist_Name, image, score))
+        #cur.execute(sql, ('22zlrw75elsb2d2i3ftjdybly', 'asdasd', 'asdasd', 0, 2))
 
         conn.commit()
         cur.close()
@@ -103,7 +106,8 @@ def insert_playlist(playlists):
     finally:
         if conn is not None:
             conn.close()
-        
+
+
 def insert_user(username):
     sql = """INSERT INTO Users (Username)
             VALUES(%s);"""
@@ -126,6 +130,7 @@ def insert_user(username):
     finally:
         if conn is not None:
             conn.close()
+
 
 if __name__ == '__main__':
     connect()
