@@ -79,7 +79,7 @@ def insert_playlists(playlists, username):
             VALUES(%s, %s, %s, %s, %s)
             ON CONFLICT (PlaylistID)
             DO UPDATE 
-                SET Score = EXCLUDED.Score;"""
+                SET Score = EXCLUDED.Score, Image = EXCLUDED.Image;"""
     conn = None
     try:
         params = config()
