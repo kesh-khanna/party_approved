@@ -13,7 +13,7 @@
         .container {
             display: flex;
             justify-content: center;
-            align-items: flex-start;
+            align-items: center;
             height: 100vh;
         }
 
@@ -21,10 +21,10 @@
             background: rgba(255, 255, 255, 0.8);
             padding: 0 20px 20px 20px;
             border-radius: 5px;
-            width: 500px;
-            height: 500px;
+            width: 700px;
+            height: 600px;
             overflow-y: scroll;
-            margin-right: 20px;
+            margin: 0 10px;
         }
 
         .leaderboard-header {
@@ -45,27 +45,35 @@
         }
 
         .playlist-cover {
+            display: flex;
             width: 80px;
             height: 80px;
             object-fit: cover;
-            margin-right: 10px;
+            margin-right: auto;
+            margin-left: 10px;
         }
 
         .playlist-name {
-            margin-right: auto;
             flex: 1;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
         }
 
+        .playlist-user {
+            flex: 1;
+            margin-left: auto;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
         .playlist-rank {
-            margin-right: 10px;
+            margin-right: auto;
             font-weight: bold;
         }
 
         .playlist-popularity {
-            margin-left: auto;
             width: 100px;
             text-align: center;
         }
@@ -76,10 +84,10 @@
         <div class="leaderboard-container">
             <h1 class="leaderboard-header">Leaderboard for {{ username }}:</h1>
             <div class="playlist-entry playlist-header">
-                <div class="playlist-rank-header">Rank</div>
-                <div class="playlist-cover-header">Cover</div>
-                <div class="playlist-name-header">Name</div>
-                <div class="playlist-popularity-header">Popularity</div>
+                <div class="playlist-rank"></div>
+                <div class="playlist-cover"></div>
+                <div class="playlist-name">Playlist Name</div>
+                <div class="playlist-popularity">Popularity</div>
             </div>
             {% if playlists %}
                 <div class="playlist-entries">
@@ -100,15 +108,14 @@
                 <p>No playlists found for the specified user. Please try again.</p>
             {% endif %}
         </div>
-
         <div class="leaderboard-container">
             <h1 class="leaderboard-header">Global Leaderboard:</h1>
             <div class="playlist-entry playlist-header">
-                <div class="playlist-rank-header">Rank</div>
-                <div class="playlist-cover-header">Cover</div>
-                <div class="playlist-name-header">Name</div>
-                <div class="playlist-popularity-header">Popularity</div>
-                <div class="playlist-user-header">User</div>
+                <div class="playlist-rank"></div>
+                <div class="playlist-cover"></div>
+                <div class="playlist-name">Playlist Name</div>
+                <div class="playlist-user">User</div>
+                <div class="playlist-popularity">Popularity</div>
             </div>
             {% if global_playlists %}
                 <div class="playlist-entries">
@@ -121,8 +128,8 @@
                                 <div class="no-cover-image">No Cover Image Available</div>
                             {% endif %}
                             <div class="playlist-name">{{ playlist['name'] }}</div>
-                            <div class="playlist-danceability">{{ playlist['pop'] }}</div>
                             <div class="playlist-user">{{ playlist['user'] }}</div>
+                            <div class="playlist-danceability">{{ playlist['pop'] }}</div>
                         </div>
                     {% endfor %}
                 </div>
