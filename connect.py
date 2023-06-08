@@ -74,7 +74,43 @@ def connect():
             print('Database connection closed.')
 
 
-def insert_playlists(playlists):
+def clear_tables():
+    """ Connect to the PostgreSQL database server """
+    conn = None
+    try:
+        # read connection parameters
+        params = config()
+
+        # connect to the PostgreSQL server
+        print('Connecting to the PostgreSQL database...')
+        conn = psycopg2.connect(**params)
+
+        # create a cursor
+        cur = conn.cursor()
+
+        print("Clearing tables")
+        tables = ["""DROP TABLE IF EXISTS Users CASCADE;
+            DROP TABLE IF EXISTS Playlists CASCADE;
+            """]
+
+        for table in tables:
+            cur.execute(table)
+
+        # close the communication with the PostgreSQL
+        cur.close()
+
+        # commit the changes
+        conn.commit()
+
+    except (Exception, psycopg2.DatabaseError) as error:
+        print(error)
+    finally:
+        if conn is not None:
+            conn.close()
+            print('Database connection closed.')
+
+
+def insert_playlists(playlists, username):
     sql = """ INSERT INTO Playlists (PlaylistID, Username, PlaylistName, Image, Score)
             VALUES(%s, %s, %s, %s, %s);"""
     conn = None
@@ -85,12 +121,11 @@ def insert_playlists(playlists):
 
         for playlist in playlists:
             playlist_ID = playlist['id']
-            Username_char = playlist['owner']['display_name']
             playlist_Name = playlist['name']
             image = 000000000000
             score = playlist['pop']
 
-            cur.execute(sql, (playlist_ID, Username_char, playlist_Name, image, score))
+            cur.execute(sql, (playlist_ID, username, playlist_Name, image, score))
         # cur.execute(sql, ('22zlrw75elsb2d2i3ftjdybly', 'asdasd', 'asdasd', 0, 2))
 
         conn.commit()
