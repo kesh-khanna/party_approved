@@ -27,8 +27,11 @@ def index():
 
 @app.route('/leaderboard', methods=['POST'])
 def leaderboard():
-    # Initalise databases
-    #connect()
+
+    # Refresh Tables
+    # clear_tables()
+    # # Initalise databases
+    # connect()
 
     # Regular Flask stuff
     username = request.form['username']
@@ -40,7 +43,7 @@ def leaderboard():
 
     # Insert playlist into database -- working for 0amest not 22sadawwaw77gdas
 
-    insert_playlists(playlists)
+    insert_playlists(playlists, username)
 
 
     return render_template('leaderboard.html', username=username, playlists=sorted_playlists)
@@ -53,7 +56,7 @@ def get_user_playlists(username):
     while results:
         for playlist in results['items']:
             playlists.append(playlist)
-            if len(playlists) >= 9:
+            if len(playlists) >= 10:
                 break
         if results['next']:
             results = sp.next(results)
