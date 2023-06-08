@@ -19,6 +19,7 @@ def config(filename='database.ini', section='postgresql'):
 
     return db
 
+
 def connect():
     """ Connect to the PostgreSQL database server """
     conn = None
@@ -83,7 +84,6 @@ def insert_playlists(playlists, username):
         cur = conn.cursor()
 
         for playlist in playlists:
-
             playlist_ID = playlist['id']
             playlist_Name = playlist['name']
             image = playlist['cover_image']
@@ -124,7 +124,8 @@ def insert_user(username):
         if conn is not None:
             conn.close()
 
-def get_top_playlists(top_num = 25):
+
+def get_top_playlists(top_num=25):
     conn = None
     try:
         params = config()
@@ -143,15 +144,17 @@ def get_top_playlists(top_num = 25):
 
     except (Exception, psycopg2.DatabaseError) as error:
         print(error)
-        return 1
+        return None
     finally:
         if conn is not None:
             conn.close()
+    print(len(rows))
+    print(rows[0])
     return rows
 
 
 def refresh_playlist(playlist):
-    #Playlists passed must already be sorted
+    # Playlists passed must already be sorted
     conn = None
     try:
         params = config()
@@ -171,7 +174,8 @@ def refresh_playlist(playlist):
         if conn is not None:
             conn.close()
 
-def clear_tables()
+
+def clear_tables():
     conn = None
     try:
         params = config()
@@ -188,7 +192,7 @@ def clear_tables()
         print(error)
     finally:
         if conn is not None:
-            conn.close()    
+            conn.close()
 
 
 if __name__ == '__main__':

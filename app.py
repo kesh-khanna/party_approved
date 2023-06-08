@@ -14,8 +14,8 @@ client_id = os.getenv("CLIENT_ID")
 client_secret = os.getenv("CLIENT_SECRET")
 
 # Set up Spotipy client credentials
-client_credentials_manager = SpotifyClientCredentials(client_id=client_id,
-                                                      client_secret=client_secret)
+client_credentials_manager = SpotifyClientCredentials(client_id="65fd6b16f21b4405a2ebbc8e592dd847",
+                                                      client_secret="ea0db8e116364d959a695dc550e1d08d")
 sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 
 
@@ -28,7 +28,7 @@ def index():
 
 @app.route('/leaderboard', methods=['POST'])
 def leaderboard():
-    # Refresh Tables
+    # # Refresh Tables
     # clear_tables()
     # # Initalise databases
     # connect()
@@ -42,14 +42,14 @@ def leaderboard():
     insert_user(username)
     # Insert playlist into database -- working for 0amest not 22sadawwaw77gdas
     insert_playlists(playlists, username)
-
-    temp_global = []
-    for playlist in playlists:
-        playlist["user"] = "9amest"
-        temp_global.append(playlist.copy())
+    # get the top 25 global playlists from the database
+    rows = get_top_playlists()
+    global_playlists = []
+    for row in rows:
+        global_playlists.append({'name': row[0], 'user': row[1], 'pop': row[2], 'cover_image': row[3]})
 
     return render_template('full_leaderboard.html', username=username, playlists=sorted_playlists,
-                           global_playlists=temp_global)
+                           global_playlists=global_playlists)
 
 
 def get_user_playlists(username):
