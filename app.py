@@ -53,7 +53,7 @@ def get_user_playlists(username):
     while results:
         for playlist in results['items']:
             playlists.append(playlist)
-            if len(playlists) >= 10:
+            if len(playlists) >= 9:
                 break
         if results['next']:
             results = sp.next(results)
