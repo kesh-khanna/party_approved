@@ -28,7 +28,7 @@ def index():
 @app.route('/leaderboard', methods=['POST'])
 def leaderboard():
     # Initalise databases
-    connect()
+    #connect()
 
     # Regular Flask stuff
     username = request.form['username']
@@ -38,10 +38,10 @@ def leaderboard():
     # Insert username into database -- working
     insert_user(username)
 
-    # Insert playlist into database -- not working
-    for playlist in sorted_playlists:
-        insert_playlist(playlist, calculate_playlist_pop(playlist['id']))
-        print(playlist['id'])
+    # Insert playlist into database -- working for 0amest not 22sadawwaw77gdas 
+
+    insert_playlists(playlists)
+
 
     return render_template('leaderboard.html', username=username, playlists=sorted_playlists)
 

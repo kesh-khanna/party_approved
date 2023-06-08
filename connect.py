@@ -47,10 +47,11 @@ def connect():
         CREATE TABLE IF NOT EXISTS Users (
           Username VARCHAR(255) PRIMARY KEY
         );
-        """, """   
+        """, 
+        """   
         CREATE TABLE IF NOT EXISTS Playlists (
           PlaylistID CHAR(22) PRIMARY KEY,
-          Username VARCHAR(255) REFERENCES Users (Username),
+          Username VARCHAR(255),
           PlaylistName VARCHAR(255) NOT NULL,
           Image VARCHAR(255),
           Score FLOAT
@@ -72,23 +73,25 @@ def connect():
             conn.close()
             print('Database connection closed.')
 
-def insert_playlist(playlist, score):
+def insert_playlists(playlists):
     sql = """ INSERT INTO Playlists (PlaylistID, Username, PlaylistName, Image, Score)
-              VALUES(%s, %s, %s, %s, %s);"""
+            VALUES(%s, %s, %s, %s, %s);"""
     conn = None
     try:
         params = config()
         conn = psycopg2.connect(**params)
         cur = conn.cursor()
 
+        for playlist in playlists:
 
-        playlistID = playlist['id']
-        Username = playlist['owner']['display_name']
-        playlistName = playlist['name']
-        Image = 0
+            playlist_ID = playlist['id']
+            Username_char = playlist['owner']['display_name']
+            playlist_Name = playlist['name']
+            image = 000000000000
+            score = playlist['pop']
 
-        cur.execute(sql, (playlistID, Username, playlistName, Image, score,))
-        cur.execute(sql, ('22zlrw75elsb2d2i3ftjdybly', 'asdasd', 'asdasd', 0, 2))
+            cur.execute(sql, (playlist_ID, Username_char, playlist_Name, image, score))
+        #cur.execute(sql, ('22zlrw75elsb2d2i3ftjdybly', 'asdasd', 'asdasd', 0, 2))
 
         conn.commit()
         cur.close()
@@ -98,7 +101,6 @@ def insert_playlist(playlist, score):
     finally:
         if conn is not None:
             conn.close()
-            print('Database connection closed.')
         
 def insert_user(username):
     sql = """INSERT INTO Users (Username)
