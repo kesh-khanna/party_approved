@@ -143,11 +143,11 @@ def get_top_playlists(top_num = 25):
 
     except (Exception, psycopg2.DatabaseError) as error:
         print(error)
-        return None
+        return 1
     finally:
         if conn is not None:
             conn.close()
-        return rows
+    return rows
 
 
 def refresh_playlist(playlist):
@@ -170,6 +170,25 @@ def refresh_playlist(playlist):
     finally:
         if conn is not None:
             conn.close()
+
+def clear_tables()
+    conn = None
+    try:
+        params = config()
+        conn = psycopg2.connect(**params)
+        cur = conn.cursor()
+        sql = """ DROP TABLE IF EXISTS Playlists;
+        DROP TABLE IF EXISTS Users;"""
+
+        cur.execute(sql)
+        cur.close()
+        conn.commit()
+
+    except (Exception, psycopg2.DatabaseError) as error:
+        print(error)
+    finally:
+        if conn is not None:
+            conn.close()    
 
 
 if __name__ == '__main__':
