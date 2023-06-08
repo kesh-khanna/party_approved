@@ -76,7 +76,10 @@ def connect():
 
 def insert_playlists(playlists, username):
     sql = """ INSERT INTO Playlists (PlaylistID, Username, PlaylistName, Image, Score)
-            VALUES(%s, %s, %s, %s, %s);"""
+            VALUES(%s, %s, %s, %s, %s)
+            ON CONFLICT (PlaylistID)
+            DO UPDATE 
+                SET Score = EXCLUDED.Score;"""
     conn = None
     try:
         params = config()
@@ -153,7 +156,7 @@ def get_top_playlists(top_num=25):
     return rows
 
 
-def refresh_playlist(playlist):
+def refresh_playlist(playlist): #Not needed anymore
     # Playlists passed must already be sorted
     conn = None
     try:
@@ -174,7 +177,7 @@ def refresh_playlist(playlist):
         if conn is not None:
             conn.close()
 
-def clear_tables()
+def clear_tables():
     conn = None
     try:
         params = config()
@@ -192,6 +195,7 @@ def clear_tables()
     finally:
         if conn is not None:
             conn.close()
+
 
 
 if __name__ == '__main__':
