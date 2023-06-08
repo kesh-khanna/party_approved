@@ -130,7 +130,7 @@ def get_top_playlists(top_num = 25):
         params = config()
         conn = psycopg2.connect(**params)
         cur = conn.cursor()
-        sql = """SELECT Playlistname, Username, Score 
+        sql = """SELECT Playlistname, Username, Score, Image
         FROM Playlists
         ORDER BY SCORE
         DESC LIMIT %s;"""
@@ -141,13 +141,13 @@ def get_top_playlists(top_num = 25):
         cur.close()
         conn.commit()
 
-        return rows #returns a list of tuples
-
     except (Exception, psycopg2.DatabaseError) as error:
         print(error)
+        return None
     finally:
         if conn is not None:
             conn.close()
+        return rows
 
 
 def refresh_playlist(playlist):
