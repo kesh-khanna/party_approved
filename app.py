@@ -4,10 +4,11 @@ from flask import Flask, render_template, request, redirect, url_for
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 from dotenv import load_dotenv
+from connect import *
 
 app = Flask(__name__)
 
-load_dotenv("/.env")
+load_dotenv(".env")
 
 client_id = os.getenv("CLIENT_ID")
 client_secret = os.getenv("CLIENT_SECRET")
@@ -18,16 +19,30 @@ client_credentials_manager = SpotifyClientCredentials(client_id=client_id,
 sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 
 
+# Flask stuff...
+
 @app.route('/')
 def index():
     return render_template('index.html')
 
-
 @app.route('/leaderboard', methods=['POST'])
 def leaderboard():
+    # Initalise databases
+    #connect()
+
+    # Regular Flask stuff
     username = request.form['username']
     playlists = get_user_playlists(username)
     sorted_playlists = sort_playlists_by_pop(playlists)
+
+    # Insert username into database -- working
+    insert_user(username)
+
+    # Insert playlist into database -- working for 0amest not 22sadawwaw77gdas 
+
+    insert_playlists(playlists)
+
+
     return render_template('leaderboard.html', username=username, playlists=sorted_playlists)
 
 
