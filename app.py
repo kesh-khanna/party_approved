@@ -15,8 +15,8 @@ client_id = os.getenv("CLIENT_ID")
 client_secret = os.getenv("CLIENT_SECRET")
 
 # Set up Spotipy client credentials
-client_credentials_manager = SpotifyClientCredentials(client_id="65fd6b16f21b4405a2ebbc8e592dd847",
-                                                      client_secret="ea0db8e116364d959a695dc550e1d08d")
+client_credentials_manager = SpotifyClientCredentials(client_id=client_id,
+                                                      client_secret=client_secret)
 sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 
 
