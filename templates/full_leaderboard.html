@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Playlist Leaderboard</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: url('../static/background.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            height: 100vh;
+        }
+
+        .leaderboard-container {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 0 20px 20px 20px;
+            border-radius: 5px;
+            width: 500px;
+            height: 500px;
+            overflow-y: scroll;
+            margin-right: 20px;
+        }
+
+        .leaderboard-header {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            position: sticky;
+            z-index: 1;
+            top: 0;
+            background-color: white;
+        }
+
+        .playlist-entry {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .playlist-cover {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            margin-right: 10px;
+        }
+
+        .playlist-name {
+            margin-right: auto;
+            flex: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .playlist-rank {
+            margin-right: 10px;
+            font-weight: bold;
+        }
+
+        .playlist-popularity {
+            margin-left: auto;
+            width: 100px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="leaderboard-container">
+            <h1 class="leaderboard-header">Leaderboard for {{ username }}:</h1>
+            <div class="playlist-entry playlist-header">
+                <div class="playlist-rank-header">Rank</div>
+                <div class="playlist-cover-header">Cover</div>
+                <div class="playlist-name-header">Name</div>
+                <div class="playlist-popularity-header">Popularity</div>
+            </div>
+            {% if playlists %}
+                <div class="playlist-entries">
+                    {% for playlist in playlists %}
+                        <div class="playlist-entry">
+                            <div class="playlist-rank">{{ loop.index }}</div>
+                            {% if playlist['cover_image'] %}
+                                <img class="playlist-cover" src="{{ playlist['cover_image'] }}" alt="Playlist Cover">
+                            {% else %}
+                                <div class="no-cover-image">No Cover Image Available</div>
+                            {% endif %}
+                            <div class="playlist-name">{{ playlist['name'] }}</div>
+                            <div class="playlist-danceability">{{ playlist['pop'] }}</div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p>No playlists found for the specified user. Please try again.</p>
+            {% endif %}
+        </div>
+
+        <div class="leaderboard-container">
+            <h1 class="leaderboard-header">Global Leaderboard:</h1>
+            <div class="playlist-entry playlist-header">
+                <div class="playlist-rank-header">Rank</div>
+                <div class="playlist-cover-header">Cover</div>
+                <div class="playlist-name-header">Name</div>
+                <div class="playlist-popularity-header">Popularity</div>
+                <div class="playlist-user-header">User</div>
+            </div>
+            {% if global_playlists %}
+                <div class="playlist-entries">
+                    {% for playlist in global_playlists %}
+                        <div class="playlist-entry">
+                            <div class="playlist-rank">{{ loop.index }}</div>
+                            {% if playlist['cover_image'] %}
+                                <img class="playlist-cover" src="{{ playlist['cover_image'] }}" alt="Playlist Cover">
+                            {% else %}
+                                <div class="no-cover-image">No Cover Image Available</div>
+                            {% endif %}
+                            <div class="playlist-name">{{ playlist['name'] }}</div>
+                            <div class="playlist-danceability">{{ playlist['pop'] }}</div>
+                            <div class="playlist-user">{{ playlist['user'] }}</div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p>No playlists found in the global leaderboard. Please try again.</p>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

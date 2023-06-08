@@ -25,9 +25,9 @@ sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 def index():
     return render_template('index.html')
 
+
 @app.route('/leaderboard', methods=['POST'])
 def leaderboard():
-
     # Refresh Tables
     # clear_tables()
     # # Initalise databases
@@ -40,13 +40,16 @@ def leaderboard():
 
     # Insert username into database -- working
     insert_user(username)
-
     # Insert playlist into database -- working for 0amest not 22sadawwaw77gdas
-
     insert_playlists(playlists, username)
 
+    temp_global = []
+    for playlist in playlists:
+        playlist["user"] = "9amest"
+        temp_global.append(playlist.copy())
 
-    return render_template('leaderboard.html', username=username, playlists=sorted_playlists)
+    return render_template('full_leaderboard.html', username=username, playlists=sorted_playlists,
+                           global_playlists=temp_global)
 
 
 def get_user_playlists(username):

@@ -122,7 +122,7 @@ def insert_playlists(playlists, username):
         for playlist in playlists:
             playlist_ID = playlist['id']
             playlist_Name = playlist['name']
-            image = 000000000000
+            image = playlist["cover_image"]
             score = playlist['pop']
 
             cur.execute(sql, (playlist_ID, username, playlist_Name, image, score))
