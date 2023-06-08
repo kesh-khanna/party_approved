@@ -5,6 +5,7 @@ import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 from dotenv import load_dotenv
 from connect import *
+import csv
 
 app = Flask(__name__)
 
@@ -31,7 +32,7 @@ def leaderboard():
     # # Refresh Tables
     # clear_tables()
     # # Initalise databases
-    # connect()
+    connect()
 
     # Regular Flask stuff
     username = request.form['username']

@@ -98,14 +98,14 @@ def insert_playlists(playlists, username):
         cur.close()
 
     except (Exception, psycopg2.DatabaseError) as error:
-        print(error)
+        print("Error: " + str(error))
     finally:
         if conn is not None:
             conn.close()
 
 
 def insert_user(username):
-    sql = """INSERT INTO Users (Username)
+    sql = """INSERT IGNORE INTO Users (Username)
             VALUES(%s);"""
     conn = None
     try:
@@ -151,12 +151,10 @@ def get_top_playlists(top_num=25):
     finally:
         if conn is not None:
             conn.close()
-    print(len(rows))
-    print(rows[0])
     return rows
 
 
-def refresh_playlist(playlist): #Not needed anymore
+def refresh_playlist(playlist):
     # Playlists passed must already be sorted
     conn = None
     try:
