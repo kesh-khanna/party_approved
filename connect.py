@@ -3,6 +3,9 @@ import psycopg2
 
 
 def config(filename='database.ini', section='postgresql'):
+    """
+    Read the database.ini file and return a dictionary of the parameters.
+    """
     # create a parser
     parser = ConfigParser()
     # read config file
@@ -21,7 +24,11 @@ def config(filename='database.ini', section='postgresql'):
 
 
 def connect():
-    """ Connect to the PostgreSQL database server """
+    """
+    Connect to the PostgreSQL database server, create tables if they don't exist and ensure that
+    the connection is working as expected.
+    :return:
+    """
     conn = None
     try:
         # read connection parameters
@@ -75,6 +82,11 @@ def connect():
 
 
 def insert_playlists(playlists, username):
+    """
+    Inserts playlists into the database from our API calls
+    :param playlists: list of dictionaries with our playlist data
+    :param username: cur user
+    """
     sql = """ INSERT INTO Playlists (PlaylistID, Username, PlaylistName, Image, Score)
             VALUES(%s, %s, %s, %s, %s)
             ON CONFLICT (PlaylistID)
@@ -105,6 +117,10 @@ def insert_playlists(playlists, username):
 
 
 def insert_user(username):
+    """
+    adds a user to the database if they don't already exist
+    :param username: spotify username
+    """
     sql = """INSERT IGNORE INTO Users (Username)
             VALUES(%s);"""
     conn = None
@@ -129,6 +145,11 @@ def insert_user(username):
 
 
 def get_top_playlists(top_num=25):
+    """
+    returns the top playlists in the database sorted by popularity score
+    :param top_num: cap of how many playlists to return
+    :return: rows of our playlist as a list of tuples, to be converted upon return in app.py
+    """
     conn = None
     try:
         params = config()
@@ -155,6 +176,11 @@ def get_top_playlists(top_num=25):
 
 
 def refresh_playlist(playlist):
+    """
+    Updates the score of a playlist in the database if a user logs into our app after
+    previously logging in and the playlist has changed in popularity.
+    :param playlist: playlist dictionary
+    """
     # Playlists passed must already be sorted
     conn = None
     try:
@@ -176,6 +202,10 @@ def refresh_playlist(playlist):
             conn.close()
 
 def clear_tables():
+    """
+    Clears the tables in the database for testing purposes
+    :return:
+    """
     conn = None
     try:
         params = config()

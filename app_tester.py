@@ -9,16 +9,21 @@ import csv
 
 app = Flask(__name__)
 
-
-# Flask stuff...
-
 @app.route('/')
 def index():
+    """
+    Flask route for the index page
+    :return:
+    """
     return render_template('index.html')
 
 
 @app.route('/leaderboard', methods=['POST'])
 def leaderboard():
+    """
+    Flask route for the leaderboard page
+    :return:
+    """
     # # Refresh Tables
     # clear_tables()
     # # Initalise databases
@@ -50,6 +55,10 @@ def leaderboard():
 
 
 def get_user_playlists(username):
+    """
+    Get the test playlists for the user given, from our static testing_data.csv file
+    :return: playlist dictionary in our format
+    """
     data = open('testing_data.csv', 'r')
     reader = csv.reader(data)
     playlists = []

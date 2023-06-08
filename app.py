@@ -24,11 +24,19 @@ sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 
 @app.route('/')
 def index():
+    """
+    Flask route for the index page
+    :return:
+    """
     return render_template('index.html')
 
 
 @app.route('/leaderboard', methods=['POST'])
 def leaderboard():
+    """
+    Flask route for the leaderboard page
+    :return:
+    """
     # # Refresh Tables
     # clear_tables()
     # # Initalise databases
@@ -54,6 +62,10 @@ def leaderboard():
 
 
 def get_user_playlists(username):
+    """
+    Get the test playlists for the user given, from the Spotify API
+    :return:
+    """
     playlists = []
     results = sp.user_playlists(username)
 
@@ -71,6 +83,11 @@ def get_user_playlists(username):
 
 
 def sort_playlists_by_pop(playlists):
+    """
+    Sort the playlists by spotify popularity metric
+    :param playlists:
+    :return:
+    """
     sorted_playlists = []
 
     for playlist in playlists:
@@ -84,6 +101,11 @@ def sort_playlists_by_pop(playlists):
 
 
 def calculate_playlist_pop(playlist_id):
+    """
+    Calculate the average popularity of the tracks in the playlist
+    :param playlist_id:
+    :return:
+    """
     tracks = sp.playlist_items(playlist_id)['items']
     if len(tracks) == 0:
         return 0
@@ -105,6 +127,9 @@ def calculate_playlist_pop(playlist_id):
 
 
 def get_playlist_cover_image(playlist_id):
+    """
+    Get the cover image URL for the playlist
+    """
     playlist = sp.playlist(playlist_id, fields='images')
     if 'images' in playlist and len(playlist['images']) > 0:
         return playlist['images'][0]['url']
