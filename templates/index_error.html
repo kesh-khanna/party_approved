@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Playlist Leaderboard</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: url('../static/background.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .login-container {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .app-name {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            width: 200px;
+            margin-bottom: 10px;
+        }
+
+        button[type="submit"] {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="login-container">
+            <h1 class="app-name">Party Approved Playlists</h1>
+            <form action="/leaderboard" method="POST">
+                <label for="username">Enter your Spotify username:</label>
+                <br>
+                <input type="text" id="username" name="username" required>
+                <br>
+                <button type="submit">Submit</button>
+                <br>
+                <label for="invalid"><FONT COLOR="RED">Invalid username!</FONT></label>
+            </form>
+            <br>
+            <form action="/global-leaderboard" method="post">
+                <button type="submit">View Global Leaderboard</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
