@@ -43,7 +43,11 @@ def leaderboard():
 
     # Regular Flask stuff
     username = request.form['username']
-    playlists = get_user_playlists(username)
+    playlists = []
+    try:
+        playlists = get_user_playlists(username)
+    except spotipy.exceptions.SpotifyException:
+            return render_template('index_error.html')
     sorted_playlists = sort_playlists_by_pop(playlists)
 
     # Insert username into database -- working
@@ -58,6 +62,27 @@ def leaderboard():
 
     return render_template('full_leaderboard.html', username=username, playlists=sorted_playlists,
                            global_playlists=global_playlists)
+
+
+@app.route('/global-leaderboard', methods=['POST'])
+def global_leaderboard():
+    """
+    Flask route for the global leaderboard page
+    :return:
+    """
+    # # Refresh Tables
+    # clear_tables()
+    # # Initalise databases
+    connect()
+
+    
+    # get the top 25 global playlists from the database
+    rows = get_top_playlists()
+    global_playlists = []
+    for row in rows:
+        global_playlists.append({'name': row[0], 'user': row[1], 'pop': row[2], 'cover_image': row[3]})
+
+    return render_template('global_leaderboard.html', global_playlists=global_playlists)
 
 
 def get_user_playlists(username):
