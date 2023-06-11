@@ -27,6 +27,7 @@ def connect():
     """
     Connect to the PostgreSQL database server, create tables if they don't exist and ensure that
     the connection is working as expected.
+    Initate the datasets as required
     :return:
     """
     conn = None
